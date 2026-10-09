@@ -1,12 +1,13 @@
 package collections;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ArrayListPractice {
 
     private final ArrayList<String> trailRunningDistances = new ArrayList<>();
 
-    public ArrayList<String> addDistance(ArrayList<String> distances) {
+    public ArrayList<String> addDistance(List<String> distances) {
         for (String distance : distances) {
             trailRunningDistances.add(distance);
         }

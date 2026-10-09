@@ -12,7 +12,7 @@ public class Main {
     static LinkedListPractice linkedListPractice = new LinkedListPractice();
     static SetPractice setPractice = new SetPractice();
 
-    public static void main(String[] args) {
+    static void main(String[] args) {
         runArrayListPractice();
         runMapPractice();
         runLinkedListPractice();
@@ -21,10 +21,11 @@ public class Main {
     }
 
     static void runArrayListPractice() {
-        ArrayList<String> trailRunningDistances = new ArrayList<>();
-        trailRunningDistances.add("Wild Peak");
-        trailRunningDistances.add("Elbrus");
-        trailRunningDistances.add("Arshyz");
+        List<String> trailRunningDistances = List.of(
+                "Wild Peak",
+                "Elbrus",
+                "Arshyz"
+        );
 
         System.out.println(
                 arrayListPractice.addDistance(trailRunningDistances)
@@ -38,10 +39,11 @@ public class Main {
     }
 
     static void runMapPractice() {
-        Map<String, String> trailRunningDistances = new HashMap<>();
-        trailRunningDistances.put("Wild Peak", "50km");
-        trailRunningDistances.put("Elbrus", "60km");
-        trailRunningDistances.put("Arshyz", "70km");
+        Map<String, String> trailRunningDistances = Map.of(
+                "Wild Peak", "50km",
+                "Elbrus", "60km",
+                "Arshyz", "70km"
+        );
 
         System.out.println(
                 mapPractice.addDistance(trailRunningDistances, "Grut", "80km")
@@ -55,11 +57,12 @@ public class Main {
     }
 
     static void runLinkedListPractice() {
-        LinkedList<String> runners = new LinkedList<>();
-        runners.add("Dmitry Mityaev");
-        runners.add("Ekaterina Mityaeva");
-        runners.add("Alexey Tolstenko");
-        runners.add("Mikhail Dolgiy");
+        List<String> runners = List.of(
+                "Dmitry Mityaev",
+                "Ekaterina Mityaeva",
+                "Alexey Tolstenko",
+                "Mikhail Dolgiy"
+        );
 
         System.out.println(
                 linkedListPractice.addRunners(runners)
@@ -73,9 +76,10 @@ public class Main {
     }
 
     static void runSetPractice() {
-        Set<String> completedTrails = new HashSet<>();
-        completedTrails.add("Dagestan Wilde Trail");
-        completedTrails.add("Pumpkin cross");
+        Set<String> completedTrails = Set.of(
+                "Dagestan Wilde Trail",
+                "Pumpkin cross"
+        );
 
         System.out.println(
                 setPractice.addTrails(completedTrails)

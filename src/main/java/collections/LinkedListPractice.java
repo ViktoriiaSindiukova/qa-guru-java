@@ -1,12 +1,13 @@
 package collections;
 
 import java.util.LinkedList;
+import java.util.List;
 
 public class LinkedListPractice {
 
     private final LinkedList<String> runners = new LinkedList<>();
 
-    public LinkedList<String> addRunners(LinkedList<String> trailRunners) {
+    public LinkedList<String> addRunners(List<String> trailRunners) {
         if(runners.addAll(trailRunners)) {
             return runners;
         }
