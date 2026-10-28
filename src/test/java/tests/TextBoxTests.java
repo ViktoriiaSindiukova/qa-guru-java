@@ -7,6 +7,8 @@ import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
+import static data.FormData.firstName;
+import static data.FormData.test;
 
 public class TextBoxTests extends BaseTest {
 
@@ -17,16 +19,16 @@ public class TextBoxTests extends BaseTest {
 
     @Test
     void successfulTextBoxWithFullNameTest() {
-        $("#userName").setValue("Viktoriia");
+        $("#userName").setValue(firstName);
         $("#submit").click();
 
         $("#name")
-                .shouldHave(text("Viktoriia"));
+                .shouldHave(text(firstName));
     }
 
     @Test
     void textBoxWithInvalidEmailTest() {
-        $("#userEmail").setValue("test");
+        $("#userEmail").setValue(test);
         $("#submit").click();
 
         $("#userEmail:invalid")

@@ -8,6 +8,7 @@ import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
+import static data.FormData.*;
 
 public class RegistrationFormTests extends BaseTest {
 
@@ -18,26 +19,26 @@ public class RegistrationFormTests extends BaseTest {
 
     @Test
     void successfulRegistrationWithAllFieldsTest() {
-        $("#firstName").setValue("Viktoriia");
-        $("#lastName").setValue("Sindyukova");
-        $("#userEmail").setValue("test@gmail.com");
-        $("#genterWrapper").$(byText("Female")).click();
-        $("#userNumber").setValue("1231231212");
+        $("#firstName").setValue(firstName);
+        $("#lastName").setValue(lastName);
+        $("#userEmail").setValue(email);
+        $("#genterWrapper").$(byText(gender)).click();
+        $("#userNumber").setValue(phoneNumber);
 
         $("#dateOfBirthInput").click();
-        $(".react-datepicker__month-select").selectOption("May");
-        $(".react-datepicker__year-select").selectOption("1994");
-        $(".react-datepicker__month").$(byText("23")).click();
+        $(".react-datepicker__month-select").selectOption(monthOfBirthday);
+        $(".react-datepicker__year-select").selectOption(yeaOfBirthday);
+        $(".react-datepicker__month").$(byText(dayOfBirthday)).click();
 
-        $("#subjectsInput").setValue("Physics").pressEnter();
+        $("#subjectsInput").setValue(subject).pressEnter();
         $("#hobbies-checkbox-1").click();
-        $("#uploadPicture").uploadFromClasspath("1546-001.webp");
-        $("#currentAddress").setValue("Комсомольская 18");
+        $("#uploadPicture").uploadFromClasspath(picture);
+        $("#currentAddress").setValue(address);
 
         $("#state").click();
-        $(byText("NCR")).click();
+        $(byText(state)).click();
         $("#city").click();
-        $(byText("Delhi")).click();
+        $(byText(city)).click();
 
         $("#submit").click();
 
@@ -47,32 +48,32 @@ public class RegistrationFormTests extends BaseTest {
         $(".table-responsive")
                 .$(byText("Student Name"))
                 .parent()
-                .shouldHave(text("Viktoriia Sindyukova"));
+                .shouldHave(text(firstName + " " + lastName));
 
         $(".table-responsive")
                 .$(byText("Student Email"))
                 .parent()
-                .shouldHave(text("test@gmail.com"));
+                .shouldHave(text(email));
 
         $(".table-responsive")
                 .$(byText("Gender"))
                 .parent()
-                .shouldHave(text("Female"));
+                .shouldHave(text(gender));
 
         $(".table-responsive")
                 .$(byText("Mobile"))
                 .parent()
-                .shouldHave(text("1231231212"));
+                .shouldHave(text(phoneNumber));
 
         $(".table-responsive")
                 .$(byText("Date of Birth"))
                 .parent()
-                .shouldHave(text("23 May,1994"));
+                .shouldHave(text(dateOfBirth));
 
         $(".table-responsive")
                 .$(byText("Subjects"))
                 .parent()
-                .shouldHave(text("Physics"));
+                .shouldHave(text(subject));
 
         $(".table-responsive")
                 .$(byText("Hobbies"))
@@ -82,26 +83,26 @@ public class RegistrationFormTests extends BaseTest {
         $(".table-responsive")
                 .$(byText("Picture"))
                 .parent()
-                .shouldHave(text("1546-001.webp"));
+                .shouldHave(text(picture));
 
         $(".table-responsive")
                 .$(byText("Address"))
                 .parent()
-                .shouldHave(text("Комсомольская 18"));
+                .shouldHave(text(address));
 
         $(".table-responsive")
                 .$(byText("State and City"))
                 .parent()
-                .shouldHave(text("NCR Delhi"));
+                .shouldHave(text(state + " " + city));
 
     }
 
     @Test
     void successfulRegistrationWithRequiredFieldsTest() {
-        $("#firstName").setValue("Viktoriia");
-        $("#lastName").setValue("Sindyukova");
-        $("#genterWrapper").$(byText("Female")).click();
-        $("#userNumber").setValue("1231231212");
+        $("#firstName").setValue(firstName);
+        $("#lastName").setValue(lastName);
+        $("#genterWrapper").$(byText(gender)).click();
+        $("#userNumber").setValue(phoneNumber);
 
         $("#submit")
                 .scrollIntoView("{block: 'center'}")
@@ -113,25 +114,25 @@ public class RegistrationFormTests extends BaseTest {
         $(".table-responsive")
                 .$(byText("Student Name"))
                 .parent()
-                .shouldHave(text("Viktoriia Sindyukova"));
+                .shouldHave(text(firstName + " " + lastName));
 
         $(".table-responsive")
                 .$(byText("Gender"))
                 .parent()
-                .shouldHave(text("Female"));
+                .shouldHave(text(gender));
 
         $(".table-responsive")
                 .$(byText("Mobile"))
                 .parent()
-                .shouldHave(text("1231231212"));
+                .shouldHave(text(phoneNumber));
     }
 
     @Test
     void registrationWithInvalidMobileTest() {
-        $("#firstName").setValue("Viktoriia");
-        $("#lastName").setValue("Sindyukova");
-        $("#genterWrapper").$(byText("Female")).click();
-        $("#userNumber").setValue("123123");
+        $("#firstName").setValue(firstName);
+        $("#lastName").setValue(lastName);
+        $("#genterWrapper").$(byText(gender)).click();
+        $("#userNumber").setValue(testPhoneNumber);
 
         $("#submit")
                 .scrollIntoView("{block: 'center'}")
@@ -146,11 +147,11 @@ public class RegistrationFormTests extends BaseTest {
 
     @Test
     void registrationWithInvalidEmailTest() {
-        $("#firstName").setValue("Viktoriia");
-        $("#lastName").setValue("Sindyukova");
-        $("#userEmail").setValue("test");
-        $("#genterWrapper").$(byText("Female")).click();
-        $("#userNumber").setValue("1231231212");
+        $("#firstName").setValue(firstName);
+        $("#lastName").setValue(lastName);
+        $("#userEmail").setValue(test);
+        $("#genterWrapper").$(byText(gender)).click();
+        $("#userNumber").setValue(phoneNumber);
 
         $("#submit")
                 .scrollIntoView("{block: 'center'}")
@@ -165,9 +166,9 @@ public class RegistrationFormTests extends BaseTest {
 
     @Test
     void registrationWithoutFirstNameTest() {
-        $("#lastName").setValue("Sindyukova");
-        $("#genterWrapper").$(byText("Female")).click();
-        $("#userNumber").setValue("1231231212");
+        $("#lastName").setValue(lastName);
+        $("#genterWrapper").$(byText(gender)).click();
+        $("#userNumber").setValue(phoneNumber);
 
         $("#submit")
                 .scrollIntoView("{block: 'center'}")
