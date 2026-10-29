@@ -11,7 +11,7 @@ public class FormData {
     public static String monthOfBirthday = "May";
     public static String yeaOfBirthday = "1994";
     public static String dayOfBirthday = "23";
-    public static String dateOfBirth = "23 May,1994";
+    public static String dateOfBirth = dayOfBirthday + " " + monthOfBirthday + "," + yeaOfBirthday;
 
     public static String address = "Комсомольская 18";
     public static String subject = "Physics";
