@@ -1,12 +1,10 @@
 package tests;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
-import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.open;
 import static data.FormData.firstName;
 import static data.FormData.test;
 
@@ -14,24 +12,27 @@ public class TextBoxTests extends BaseTest {
 
     @BeforeEach
     void openTextBox() {
-        open("/text-box");
+        textBoxPage.openPage();
     }
 
     @Test
-    void successfulTextBoxWithFullNameTest() {
-        $("#userName").setValue(firstName);
-        $("#submit").click();
+    void shouldDisplayNameAfterFormSubmission() {
+        textBoxPage
+                .enterName(firstName)
+                .submit();
 
-        $("#name")
-                .shouldHave(text(firstName));
+        Assertions.assertEquals(
+                "Name:" + firstName,
+                textBoxPage.getDisplayedName()
+        );
     }
 
     @Test
-    void textBoxWithInvalidEmailTest() {
-        $("#userEmail").setValue(test);
-        $("#submit").click();
-
-        $("#userEmail:invalid")
+    void shouldRejectInvalidEmail() {
+        textBoxPage
+                .enterEmail(test)
+                .submit()
+                .getInvalidEmailField()
                 .shouldBe(visible);
     }
 }

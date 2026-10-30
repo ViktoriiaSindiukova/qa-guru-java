@@ -5,179 +5,154 @@ import org.junit.jupiter.api.Test;
 
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
-import static com.codeborne.selenide.Selectors.byText;
-import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.open;
 import static data.FormData.*;
 
 public class RegistrationFormTests extends BaseTest {
 
     @BeforeEach
     void openRegistrationForm() {
-        open("/automation-practice-form");
+        registrationFormPage.openForm();
     }
 
     @Test
-    void successfulRegistrationWithAllFieldsTest() {
-        $("#firstName").setValue(firstName);
-        $("#lastName").setValue(lastName);
-        $("#userEmail").setValue(email);
-        $("#genterWrapper").$(byText(gender)).click();
-        $("#userNumber").setValue(phoneNumber);
+    void shouldSubmitRegistrationFormWithAllFields() {
+        registrationFormPage
+                .setFirstName(firstName)
+                .setLastName(lastName)
+                .setEmail(email)
+                .selectGender(gender)
+                .setPhoneNumber(phoneNumber)
+                .selectDate(monthOfBirthday, yeaOfBirthday, dayOfBirthday)
+                .selectSubject(subject)
+                .selectHobbies1()
+                .uploadPicture(picture)
+                .setCurrentAddress(address)
+                .selectStateAndCity(state, city)
+                .submit();
 
-        $("#dateOfBirthInput").click();
-        $(".react-datepicker__month-select").selectOption(monthOfBirthday);
-        $(".react-datepicker__year-select").selectOption(yeaOfBirthday);
-        $(".react-datepicker__month").$(byText(dayOfBirthday)).click();
-
-        $("#subjectsInput").setValue(subject).pressEnter();
-        $("#hobbies-checkbox-1").click();
-        $("#uploadPicture").uploadFromClasspath(picture);
-        $("#currentAddress").setValue(address);
-
-        $("#state").click();
-        $(byText(state)).click();
-        $("#city").click();
-        $(byText(city)).click();
-
-        $("#submit").click();
-
-        $("#example-modal-sizes-title-lg")
+        registrationFormPage
+                .getResultModalTitle()
                 .shouldHave(text("Thanks for submitting the form"));
 
-        $(".table-responsive")
-                .$(byText("Student Name"))
-                .parent()
+        registrationFormPage
+                .getResultValue("Student Name")
                 .shouldHave(text(firstName + " " + lastName));
 
-        $(".table-responsive")
-                .$(byText("Student Email"))
-                .parent()
+        registrationFormPage
+                .getResultValue("Student Email")
                 .shouldHave(text(email));
 
-        $(".table-responsive")
-                .$(byText("Gender"))
-                .parent()
+        registrationFormPage
+                .getResultValue("Gender")
                 .shouldHave(text(gender));
 
-        $(".table-responsive")
-                .$(byText("Mobile"))
-                .parent()
+        registrationFormPage
+                .getResultValue("Mobile")
                 .shouldHave(text(phoneNumber));
 
-        $(".table-responsive")
-                .$(byText("Date of Birth"))
-                .parent()
+        registrationFormPage
+                .getResultValue("Date of Birth")
                 .shouldHave(text(dateOfBirth));
 
-        $(".table-responsive")
-                .$(byText("Subjects"))
-                .parent()
+        registrationFormPage
+                .getResultValue("Subjects")
                 .shouldHave(text(subject));
 
-        $(".table-responsive")
-                .$(byText("Hobbies"))
-                .parent()
+        registrationFormPage
+                .getResultValue("Hobbies")
                 .shouldHave(text("Sports"));
 
-        $(".table-responsive")
-                .$(byText("Picture"))
-                .parent()
+        registrationFormPage
+                .getResultValue("Picture")
                 .shouldHave(text(picture));
 
-        $(".table-responsive")
-                .$(byText("Address"))
-                .parent()
+        registrationFormPage
+                .getResultValue("Address")
                 .shouldHave(text(address));
 
-        $(".table-responsive")
-                .$(byText("State and City"))
-                .parent()
+        registrationFormPage
+                .getResultValue("State and City")
                 .shouldHave(text(state + " " + city));
 
     }
 
     @Test
-    void successfulRegistrationWithRequiredFieldsTest() {
-        $("#firstName").setValue(firstName);
-        $("#lastName").setValue(lastName);
-        $("#genterWrapper").$(byText(gender)).click();
-        $("#userNumber").setValue(phoneNumber);
+    void shouldSubmitRegistrationFormWithRequiredFields() {
+        registrationFormPage
+                .setFirstName(firstName)
+                .setLastName(lastName)
+                .selectGender(gender)
+                .setPhoneNumber(phoneNumber)
+                .submit();
 
-        $("#submit")
-                .scrollIntoView("{block: 'center'}")
-                .click();
-
-        $("#example-modal-sizes-title-lg")
+        registrationFormPage
+                .getResultModalTitle()
                 .shouldHave(text("Thanks for submitting the form"));
 
-        $(".table-responsive")
-                .$(byText("Student Name"))
-                .parent()
+        registrationFormPage
+                .getResultValue("Student Name")
                 .shouldHave(text(firstName + " " + lastName));
 
-        $(".table-responsive")
-                .$(byText("Gender"))
-                .parent()
+        registrationFormPage
+                .getResultValue("Gender")
                 .shouldHave(text(gender));
 
-        $(".table-responsive")
-                .$(byText("Mobile"))
-                .parent()
+        registrationFormPage
+                .getResultValue("Mobile")
                 .shouldHave(text(phoneNumber));
     }
 
     @Test
-    void registrationWithInvalidMobileTest() {
-        $("#firstName").setValue(firstName);
-        $("#lastName").setValue(lastName);
-        $("#genterWrapper").$(byText(gender)).click();
-        $("#userNumber").setValue(testPhoneNumber);
+    void shouldRejectRegistrationWithInvalidPhoneNumber() {
+        registrationFormPage
+                .setFirstName(firstName)
+                .setLastName(lastName)
+                .selectGender(gender)
+                .setPhoneNumber(testPhoneNumber)
+                .submit();
 
-        $("#submit")
-                .scrollIntoView("{block: 'center'}")
-                .click();
-
-        $("#example-modal-sizes-title-lg")
+        registrationFormPage
+                .getResultModalTitle()
                 .shouldNotBe(visible);
 
-        $("#userNumber:invalid")
+        registrationFormPage
+                .getInvalidPhoneNumberField()
                 .shouldBe(visible);
     }
 
     @Test
-    void registrationWithInvalidEmailTest() {
-        $("#firstName").setValue(firstName);
-        $("#lastName").setValue(lastName);
-        $("#userEmail").setValue(test);
-        $("#genterWrapper").$(byText(gender)).click();
-        $("#userNumber").setValue(phoneNumber);
+    void shouldRejectRegistrationWithInvalidEmail() {
+        registrationFormPage
+                .setFirstName(firstName)
+                .setLastName(lastName)
+                .setEmail(test)
+                .selectGender(gender)
+                .setPhoneNumber(phoneNumber)
+                .submit();
 
-        $("#submit")
-                .scrollIntoView("{block: 'center'}")
-                .click();
-
-        $("#example-modal-sizes-title-lg")
+        registrationFormPage
+                .getResultModalTitle()
                 .shouldNotBe(visible);
 
-        $("#userEmail:invalid")
+        registrationFormPage
+                .getInvalidEmailField()
                 .shouldBe(visible);
     }
 
     @Test
-    void registrationWithoutFirstNameTest() {
-        $("#lastName").setValue(lastName);
-        $("#genterWrapper").$(byText(gender)).click();
-        $("#userNumber").setValue(phoneNumber);
+    void shouldRejectRegistrationWithoutFirstName() {
+        registrationFormPage
+                .setLastName(lastName)
+                .selectGender(gender)
+                .setPhoneNumber(phoneNumber)
+                .submit();
 
-        $("#submit")
-                .scrollIntoView("{block: 'center'}")
-                .click();
-
-        $("#example-modal-sizes-title-lg")
+        registrationFormPage
+                .getResultModalTitle()
                 .shouldNotBe(visible);
 
-        $("#firstName:invalid")
+        registrationFormPage
+                .getInvalidFirstNameField()
                 .shouldBe(visible);
     }
 }
