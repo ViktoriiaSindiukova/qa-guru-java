@@ -1,4 +1,4 @@
-package pages.RegistrationFormPage.components;
+package pages.registrationFormPage.components;
 
 import com.codeborne.selenide.SelenideElement;
 
@@ -12,6 +12,7 @@ public class ResultTableComponent {
     public SelenideElement getResultValue(String fieldName) {
         return table
                 .$(byText(fieldName))
-                .parent();
+                .parent()
+                .$("td", 1);
     }
 }

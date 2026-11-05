@@ -1,7 +1,8 @@
-package pages.RegistrationFormPage.components;
+package pages.registrationFormPage.components;
 
 import com.codeborne.selenide.SelenideElement;
 
+import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.$;
 
@@ -16,6 +17,10 @@ public class DatePickerComponent {
         dateInput.click();
         monthSelect.selectOption(month);
         yearSelect.selectOption(year);
-        calendar.$(byText(day)).click();
+
+        calendar
+                .$$(".react-datepicker__day:not(.react-datepicker__day--outside-month)")
+                .findBy(text(day))
+                .click();
     }
 }

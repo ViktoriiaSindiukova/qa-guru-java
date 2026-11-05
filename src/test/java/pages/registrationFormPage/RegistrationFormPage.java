@@ -1,9 +1,9 @@
-package pages.RegistrationFormPage;
+package pages.registrationFormPage;
 
 import com.codeborne.selenide.SelenideElement;
-import pages.RegistrationFormPage.components.DatePickerComponent;
-import pages.RegistrationFormPage.components.ResultTableComponent;
-import pages.RegistrationFormPage.components.StateAndCityComponent;
+import pages.registrationFormPage.components.DatePickerComponent;
+import pages.registrationFormPage.components.ResultTableComponent;
+import pages.registrationFormPage.components.StateAndCityComponent;
 
 
 import static com.codeborne.selenide.Selectors.byText;

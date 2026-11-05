@@ -3,8 +3,8 @@ package tests;
 import com.codeborne.selenide.Configuration;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
-import pages.RegistrationFormPage.RegistrationFormPage;
-import pages.TextBoxPage.TextBoxPage;
+import pages.registrationFormPage.RegistrationFormPage;
+import pages.textBoxPage.TextBoxPage;
 
 import static com.codeborne.selenide.Selenide.closeWebDriver;
 
