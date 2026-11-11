@@ -1,33 +1,36 @@
 package tests;
 
+import data.FormData;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
-import static data.FormData.*;
 
 public class RegistrationFormTests extends BaseTest {
 
+    private FormData formData;
+
     @BeforeEach
     void openRegistrationForm() {
+        formData = new FormData();
         registrationFormPage.openForm();
     }
 
     @Test
     void shouldSubmitRegistrationFormWithAllFields() {
         registrationFormPage
-                .setFirstName(firstName)
-                .setLastName(lastName)
-                .setEmail(email)
-                .selectGender(gender)
-                .setPhoneNumber(phoneNumber)
-                .selectDate(monthOfBirthday, yeaOfBirthday, dayOfBirthday)
-                .selectSubject(subject)
+                .setFirstName(formData.firstName)
+                .setLastName(formData.lastName)
+                .setEmail(formData.email)
+                .selectGender(formData.gender)
+                .setPhoneNumber(formData.phoneNumber)
+                .selectDate(formData.monthOfBirthday, formData.yearOfBirthday, formData.dayOfBirthday)
+                .selectSubject(formData.subject)
                 .selectHobbies1()
-                .uploadPicture(picture)
-                .setCurrentAddress(address)
-                .selectStateAndCity(state, city)
+                .uploadPicture(formData.picture)
+                .setCurrentAddress(formData.address)
+                .selectStateAndCity(formData.state, formData.city)
                 .submit();
 
         registrationFormPage
@@ -36,27 +39,29 @@ public class RegistrationFormTests extends BaseTest {
 
         registrationFormPage
                 .getResultValue("Student Name")
-                .shouldHave(text(firstName + " " + lastName));
+                .shouldHave(
+                        text(formData.firstName + " " + formData.lastName)
+                );
 
         registrationFormPage
                 .getResultValue("Student Email")
-                .shouldHave(text(email));
+                .shouldHave(text(formData.email));
 
         registrationFormPage
                 .getResultValue("Gender")
-                .shouldHave(text(gender));
+                .shouldHave(text(formData.gender));
 
         registrationFormPage
                 .getResultValue("Mobile")
-                .shouldHave(text(phoneNumber));
+                .shouldHave(text(formData.phoneNumber));
 
         registrationFormPage
                 .getResultValue("Date of Birth")
-                .shouldHave(text(dateOfBirth));
+                .shouldHave(text(formData.dateOfBirth));
 
         registrationFormPage
                 .getResultValue("Subjects")
-                .shouldHave(text(subject));
+                .shouldHave(text(formData.subject));
 
         registrationFormPage
                 .getResultValue("Hobbies")
@@ -64,25 +69,25 @@ public class RegistrationFormTests extends BaseTest {
 
         registrationFormPage
                 .getResultValue("Picture")
-                .shouldHave(text(picture));
+                .shouldHave(text(formData.picture));
 
         registrationFormPage
                 .getResultValue("Address")
-                .shouldHave(text(address));
+                .shouldHave(text(formData.address));
 
         registrationFormPage
                 .getResultValue("State and City")
-                .shouldHave(text(state + " " + city));
+                .shouldHave(text(formData.state + " " + formData.city));
 
     }
 
     @Test
     void shouldSubmitRegistrationFormWithRequiredFields() {
         registrationFormPage
-                .setFirstName(firstName)
-                .setLastName(lastName)
-                .selectGender(gender)
-                .setPhoneNumber(phoneNumber)
+                .setFirstName(formData.firstName)
+                .setLastName(formData.lastName)
+                .selectGender(formData.gender)
+                .setPhoneNumber(formData.phoneNumber)
                 .submit();
 
         registrationFormPage
@@ -91,24 +96,24 @@ public class RegistrationFormTests extends BaseTest {
 
         registrationFormPage
                 .getResultValue("Student Name")
-                .shouldHave(text(firstName + " " + lastName));
+                .shouldHave(text(formData.firstName + " " + formData.lastName));
 
         registrationFormPage
                 .getResultValue("Gender")
-                .shouldHave(text(gender));
+                .shouldHave(text(formData.gender));
 
         registrationFormPage
                 .getResultValue("Mobile")
-                .shouldHave(text(phoneNumber));
+                .shouldHave(text(formData.phoneNumber));
     }
 
     @Test
     void shouldRejectRegistrationWithInvalidPhoneNumber() {
         registrationFormPage
-                .setFirstName(firstName)
-                .setLastName(lastName)
-                .selectGender(gender)
-                .setPhoneNumber(testPhoneNumber)
+                .setFirstName(formData.firstName)
+                .setLastName(formData.lastName)
+                .selectGender(formData.gender)
+                .setPhoneNumber(formData.invalidPhoneNumber)
                 .submit();
 
         registrationFormPage
@@ -123,11 +128,11 @@ public class RegistrationFormTests extends BaseTest {
     @Test
     void shouldRejectRegistrationWithInvalidEmail() {
         registrationFormPage
-                .setFirstName(firstName)
-                .setLastName(lastName)
-                .setEmail(test)
-                .selectGender(gender)
-                .setPhoneNumber(phoneNumber)
+                .setFirstName(formData.firstName)
+                .setLastName(formData.lastName)
+                .setEmail(formData.invalidEmail)
+                .selectGender(formData.gender)
+                .setPhoneNumber(formData.phoneNumber)
                 .submit();
 
         registrationFormPage
@@ -142,9 +147,9 @@ public class RegistrationFormTests extends BaseTest {
     @Test
     void shouldRejectRegistrationWithoutFirstName() {
         registrationFormPage
-                .setLastName(lastName)
-                .selectGender(gender)
-                .setPhoneNumber(phoneNumber)
+                .setLastName(formData.lastName)
+                .selectGender(formData.gender)
+                .setPhoneNumber(formData.phoneNumber)
                 .submit();
 
         registrationFormPage
