@@ -1,5 +1,6 @@
 package data;
 
+import com.github.javafaker.Faker;
 import data.enums.State;
 
 import java.time.LocalDate;
@@ -10,6 +11,9 @@ import java.util.Locale;
 import static data.TestDataGenerator.*;
 
 public class FormData {
+
+
+    private static final Faker faker = new Faker();
 
     public final String firstName = getFirstName();
     public final String lastName = getLastName();
@@ -34,9 +38,7 @@ public class FormData {
     public final String subject = getSubject();
     public final State stateAndCity = getStateAndCity();
     public final String state = stateAndCity.getDisplayName();
-    public final String city = stateAndCity.getCities()[
-            getRandomInt(0, stateAndCity.getCities().length)
-            ];
+    public final String city = faker.options().option(stateAndCity.getCities());
     public final String picture = "1546-001.webp";
 
     public final String invalidEmail = "test";

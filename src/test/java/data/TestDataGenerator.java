@@ -6,7 +6,7 @@ import data.enums.State;
 import data.enums.Subject;
 
 import java.time.LocalDate;
-import java.util.concurrent.ThreadLocalRandom;
+import java.time.ZoneId;
 
 public class TestDataGenerator {
 
@@ -29,33 +29,25 @@ public class TestDataGenerator {
     }
 
     public static String getPhoneNumber() {
-        return faker.number().digits(10);
+        return faker.phoneNumber().subscriberNumber(10);
     }
 
     public static String getGender() {
-        Gender[] genders = Gender.values();
-        return genders[getRandomInt(0, genders.length)].name();
+        return faker.options().option(Gender.values()).name();
     }
 
     public static String getSubject() {
-        Subject[] subjects = Subject.values();
-        return subjects[getRandomInt(0, subjects.length)].name();
+        return faker.options().option(Subject.values()).name();
     }
 
     public static State getStateAndCity() {
-        State[] states = State.values();
-        return states[getRandomInt(0, states.length)];
+        return faker.options().option(State.values());
     }
 
     public static LocalDate getBirthday() {
-        return LocalDate.of(
-                getRandomInt(1980, 2000),
-                getRandomInt(1, 13),
-                getRandomInt(1, 29)
-        );
+        return faker.date().birthday().toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDate();
     }
 
-    public static int getRandomInt(int min, int max) {
-        return ThreadLocalRandom.current().nextInt(min, max);
-    }
 }
